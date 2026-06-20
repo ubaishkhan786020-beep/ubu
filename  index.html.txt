@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Beautiful Princess — Chayanika ❤️</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffe5ec, #ffcad4, #b5e2fa);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #2b2d42;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 15px;
+        }
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 30px 20px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.15);
+            text-align: center;
+            border: 2px solid rgba(255, 77, 109, 0.2);
+            position: relative;
+        }
+        .screen { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        
+        h2 { color: #ff124f; font-size: 1.5rem; margin-bottom: 12px; }
+        p { color: #4a5568; font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; font-weight: 500; }
+        .sticker { font-size: 4rem; margin-bottom: 12px; display: inline-block; transition: all 0.3s; }
+        
+        input {
+            width: 100%; padding: 13px; border-radius: 15px;
+            border: 2px solid #ffcad4; font-size: 1rem;
+            text-align: center; margin-bottom: 15px; box-sizing: border-box;
+            outline: none;
+        }
+        input:focus { border-color: #ff4d6d; }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff4d6d, #ff124f);
+            color: white; border: none; padding: 13px;
+            font-size: 1rem; font-weight: bold; border-radius: 15px;
+            cursor: pointer; width: 100%; margin-top: 5px;
+        }
+        
+        /* Runaway Button Box */
+        .btn-box { position: relative; height: 100px; margin-top: 15px; width: 100%; }
+        #no-btn { position: absolute; width: 105px; left: calc(50% + 10px); background: #6c757d; transition: all 0.1s ease; }
+        #yes-btn { position: absolute; width: 105px; left: calc(50% - 115px); }
+        
+        /* Quiz Grid */
+        .quiz-grid { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; }
+        .quiz-btn {
+            background: white; color: #2b2d42; border: 2px solid #ffcad4;
+            padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer;
+            text-align: left; padding-left: 15px;
+        }
+        .quiz-btn:hover { background: #fff5f5; border-color: #ff4d6d; }
+
+        /* Scroll Box for 21 List items */
+        .scroll-box { height: 230px; overflow-y: auto; border-radius: 15px; text-align: left; margin-bottom: 15px; padding-right: 5px; }
+        .scroll-box::-webkit-scrollbar { width: 5px; }
+        .scroll-box::-webkit-scrollbar-thumb { background: rgba(255, 77, 109, 0.3); border-radius: 10px; }
+        
+        .spotify-card {
+            background: white; border: 1px solid rgba(255, 77, 109, 0.12);
+            padding: 10px 12px; border-radius: 12px; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .track-title { font-weight: 600; color: #ff124f; font-size: 0.9rem; }
+        .track-desc { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
+
+        /* Fixed Spin Wheel Styling */
+        .wheel-container { position: relative; width: 180px; height: 180px; margin: 0 auto 25px auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #2b2d42; box-sizing: border-box; transition: transform 3s cubic-bezier(0.1, 0.8, 0.1, 1); background: conic-gradient(#ff4d6d 0deg 90deg, #ffb703 90deg 180deg, #4ea8de 180deg 270deg, #70e000 270deg 360deg); }
+        .wheel-pointer { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 22px solid #ff124f; z-index: 10; }
+
+        /* Treasure Hunt Grid */
+        .hunt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; width: 100%; }
+        .hunt-item { background: rgba(255,255,255,0.8); border: 2px dashed rgba(255, 77, 109, 0.3); border-radius: 12px; height: 75px; display: flex; justify-content: center; align-items: center; font-size: 1.6rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- L1: PASSWORD -->
+        <div class="screen active" id="l1">
+            <div class="sticker">🔐</div>
+            <h2>Unlock Your Gift!</h2>
+            <p>Welcome Chayanika! Humare is pyaare se safar ko ek mahina poora ho gaya hai. Enter my full Birthday Date to unlock (DDMMYYYY):</p>
+            <input type="password" id="pass" placeholder="DDMMYYYY" maxlength="8">
+            <button class="btn" onclick="checkPass()">Unlock Magic ✨</button>
+        </div>
+
+        <!-- L2: EMOTIONAL LOVE QUESTION (SAD RUNAWAY) -->
+        <div class="screen" id="l2">
+            <div class="sticker" id="meme2">🥺</div>
+            <h2>Ek Sacha Sawal...</h2>
+            <p id="text2">Chayanika, kya aap mujhse sacha pyaar karti ho? ❤️</p>
+            <div class="btn-box">
+                <button class="btn" id="yes-btn" onclick="next(2, 3)">Haan, bohot zyaada! 💖</button>
+                <button class="btn" id="no-btn" onmouseover="runSad()" onclick="alert('Aise mat bolo yaar... 💔')">Nahi 🥺</button>
+            </div>
+        </div>
+
+        <!-- L3: CUTE SCENE QUESTION -->
+        <div class="screen" id="l3">
+            <div class="sticker">✨🤗</div>
+            <h2>A Pyaari Situation...</h2>
+            <p>Agar main kabhi kisi baat par thoda udaas baitha hoon, toh aap mujhe normal karne ke liye sabse pehle kya karogi?</p>
+            <div class="quiz-grid">
+                <button class="quiz-btn" onclick="wrongQuiz('sexyMsg','Mujhe aapke sath ki zaroorat hoti hai jab mai sad hota hu 🥺')">1. Aapko thodi der akela chhod dungi</button>
+                <button class="quiz-btn" onclick="correctQuiz('sexyMsg', 4)">2. Aapka haath pakad kar zor se hug karungi aur bolungi mai hu na aapke sath 🫂❤️</button>
+                <button class="quiz-btn" onclick="wrongQuiz('sexyMsg','Sirf phone dekhne se dimaag theek nahi hoga... thoda dhyan do na! 📱')">3. Aapko funny memes scroll karke dikhaungi</button>
+            </div>
+            <div id="sexyMsg" style="margin-top: 12px; color: #ff124f; font-weight: 600; font-size: 0.9rem;"></div>
+        </div>
+
+        <!-- L4: DOUBLE MEANING -->
+        <div class="screen" id="l4">
+            <div class="sticker">💭✨</div>
+            <h2>Mind Test: Chota sa Puzzle</h2>
+            <p>Woh kya cheez hai jo khadi ho toh lambi hoti hai, aur aap uspe baitho toh gol ho jati hai? (Dimaag lagao!)</p>
+            <div class="quiz-grid">
+                <button class="quiz-btn" onclick="wrongQuiz('doubleMsg','Galat jawab! Ek baar aur achhe se sochiye... 🤔')">1. Mujhe nahi pata, mushkil sawal hai 🙈</button>
+                <button class="quiz-btn" onclick="correctQuiz('doubleMsg', 5)">2. Cycle ka Stand aur uski gol Seat! 🚲</button>
+                <button class="quiz-btn" onclick="wrongQuiz('doubleMsg','Galat! Yeh koi aisi cheez nahi hai jo aap soch rahi ho... 🧐')">3. Koi badi si ladi</button>
+            </div>
+            <div id="doubleMsg" style="margin-top: 12px; color: #ff124f; font-weight: 600; font-size: 0.9rem;"></div>
+        </div>
+
+        <!-- L5: COMPLIMENT GENERATOR -->
+        <div class="screen" id="l5">
+            <div class="sticker">🌸</div>
+            <h2>Your Daily Dose of Love</h2>
+            <p>Niche click karke apni khoobsurat tareefein dekhiye (Kam se kam 3 baar click karein!):</p>
+            <div class="spotify-card" style="justify-content:center; font-weight:600; font-size:0.95rem; text-align:center;" id="compText">Click below to generate... 😍</div>
+            <button class="btn" id="compBtn" onclick="generateCompliment()">Generate Sweet Compliment 🌸</button>
+        </div>
+
+        <!-- L6: SPIN WHEEL (FIXED VISIBILITY) -->
+        <div class="screen" id="l6">
+            <div class="sticker">🎡</div>
+            <h2>Wheel of Romance</h2>
+            <p>Let's see aapka luck aaj aapko kya reward deta hai! Spin kijiye:</p>
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="spinWheel"></div>
+            </div>
+            <button class="btn" id="wheelBtn" onclick="spinTheWheel()">Spin the Wheel 🔮</button>
+        </div>
+
+        <!-- L7: LOVE METER -->
+        <div class="screen" id="l7">
+            <div class="sticker">🧬</div>
+            <h2>Ultimate Love Scanner</h2>
+            <p>Chalo system se test karwate hain ki hamara pyaar kitna gehra hai:</p>
+            <input type="text" id="meterName" placeholder="Enter Your Name">
+            <div id="meterResult" style="font-weight:bold; font-size:1.1rem; color:#ff124f; margin-bottom:15px; display:none;"></div>
+            <button class="btn" id="meterBtn" onclick="runLoveMeter()">Calculate Love Score 🧬</button>
+        </div>
+
+        <!-- L8 TO L12: TREASURE HUNT STAGES -->
+        <div class="screen" id="l8">
+            <div class="sticker" id="hSticker1">🔍</div>
+            <h2>Treasure Hunt: Stage 1</h2>
+            <p>Mera dil kho gaya hai! Kisi ek box mein <strong>"Dil ki Chabi" (🔑)</strong> chhupi hui hai:</p>
+            <div class="hunt-grid" id="huntGrid1"></div>
+            <div id="huntMsg1" style="color:#ff124f; font-weight:600; font-size:0.9rem;"></div>
+        </div>
+
+        <div class="screen" id="l9">
+            <div class="sticker" id="hSticker2">🔍</div>
+            <h2>Treasure Hunt: Stage 2</h2>
+            <p>Ab in boxes mein se hamare rishte ki sabse pyari cheez <strong>"Our First Chat Token" (💬)</strong> dhoondiye:</p>
+            <div class="hunt-grid" id="huntGrid2"></div>
+            <div id="huntMsg2" style="color:#ff124f; font-weight:600; font-size:0.9rem;"></div>
+        </div>
+
+        <div class="screen" id="l10">
+            <div class="sticker" id="hSticker3">🔍</div>
+            <h2>Treasure Hunt: Stage 3</h2>
+            <p>Kisi ek box mein aapke liye ek <strong>"Special Gift Box" (💝)</strong> chhupa hai:</p>
+            <div class="hunt-grid" id="huntGrid3"></div>
+            <div id="huntMsg3" style="color:#ff124f; font-weight:600; font-size:0.9rem;"></div>
+        </div>
+
+        <div class="screen" id="l11">
+            <div class="sticker" id="hSticker4">🔍</div>
+            <h2>Treasure Hunt: Stage 4</h2>
+            <p>Ab is grid mein se hamari safe jagah yaani ek chota sa <strong>"Sweet Home" (🏡)</strong> dhoondiye:</p>
+            <div class="hunt-grid" id="huntGrid4"></div>
+            <div id="huntMsg4" style="color:#ff124f; font-weight:600; font-size:0.9rem;"></div>
+        </div>
+
+        <div class="screen" id="l12">
+            <div class="sticker" id="hSticker5">🔍</div>
+            <h2>Treasure Hunt: Final Stage</h2>
+            <p>Ek aakhiri cheez bachi hai, hum dono ke hamesha saath rehne ke vaade ki <strong>"Promise Ring" (💍)</strong> dhoondiye:</p>
+            <div class="hunt-grid" id="huntGrid5"></div>
+            <div id="huntMsg5" style="color:#ff124f; font-weight:600; font-size:0.9rem;"></div>
+        </div>
+
+        <!-- L13: 21 SONGS -->
+        <div class="screen" id="l13">
+            <div class="sticker">🎵💝</div>
+            <h2>21 Songs For You</h2>
+            <p>Ye saare gaane mujhe aapki aur hamari baaton ki yaad dilate hain:</p>
+            <div class="scroll-box" id="songsBox"></div>
+            <button class="btn" onclick="next(13, 14)">Go to Next Level ➡️</button>
+        </div>
+
+        <!-- L14: 21 REASONS -->
+        <div class="screen" id="l14">
+            <div class="sticker">💛📖</div>
+            <h2>21 Reasons Why I Love You</h2>
+            <p>Main aapse itna pyaar kyun karta hoon? Niche scroll karke poora padhein:</p>
+            <div class="scroll-box" id="reasonsBox"></div>
+            <button class="btn" onclick="next(14, 15)">Almost Reached... Click! ➡️</button>
+        </div>
+
+        <!-- L15: TYPEWRITER SECRET NOTE -->
+        <div class="screen" id="l15">
+            <div class="sticker">💌</div>
+            <h2>A Letter from My Heart</h2>
+            <p>Niche button dabayein aur dekhiye mera ek digital secret note jo aapke samne khud type hoga:</p>
+            <div id="typeBox" style="background:#faf8f5; border:1px solid #ffcad4; border-radius:12px; padding:15px; min-height:120px; text-align:left; font-size:0.9rem; line-height:1.5; white-space:pre-wrap;"></div>
+            <button class="btn" id="typeBtn" style="margin-top:15px;" onclick="startTypewriter()">Read Letter ✒️</button>
+        </div>
+
+        <!-- L16: MILESTONE CERTIFICATE -->
+        <div class="screen" id="l16">
+            <div class="sticker">🏅</div>
+            <h2>Official Love Milestone Passed!</h2>
+            <p>You have successfully completed the 1-Month Love Journey. Here is your official certificate:</p>
+            <div style="background:white; border:3px double #ff4d6d; padding:15px; border-radius:15px; margin-bottom:15px;">
+                <h3 style="color:#ff124f; margin:0 0 8px 0;">Winner of My Heart</h3>
+                <p style="margin-bottom:5px; font-weight:bold;">Awarded to: <span style="color: #ff124f;">Chayanika</span></p>
+                <p style="font-size:0.85rem; font-style:italic; color:#4a5568;">"For completing 1 month of endless laughs, beautiful late-night chats, and pure love despite the distance."</p>
+                <div style="font-size:1.5rem; margin-top:8px;">🏆❤️⭐️</div>
+            </div>
+            <button class="btn" onclick="next(16, 17)">Claim Grand Reward! 🎆</button>
+        </div>
+
+        <!-- L17: GRAND FINALE -->
+        <div class="screen" id="l17">
+            <div class="sticker">👑❤️✨</div>
+            <h2>Happy 1 Month, My Princess! 🎉</h2>
+            <p style="font-size: 1.05rem;">Chayanika, aap meri zindagi ka sabse khoobsurat hissa ho. Mujhe aapse behad pyaar hai. Thank you for making this 1 month so incredible. I love you to the moon and back! 🌙❤️</p>
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_PASS = "23112009";
+        
+        const compliments = [
+            "Aapki Aankhein (Eyes) itni pyaari hain ki main unme kho jata hoon... 👀✨",
+            "Aapki Smile aur Lips jab muskurate hain, mera din wahi ban jata hai! 💋🌸",
+            "Aapke Hairs (Baal) ekdam badal jaise lagte hain, bohot khoobsurat hain! 👩‍🦰✨",
+            "Aapka jo sweet behaviour aur care karne ka tareeka hai na, uska koi jwaab nahi hai. 🫂💛",
+            "Mera khayal rakhne ki jo aapki aadat hai, woh mujhe sabse khushkismat banati hai! 🥰❤️"
+        ];
+        let compCount = 0;
+
+        const songs = [
+            "Until I Found You", "Heeriye", "I Wanna Be Yours", "Perfect", "O Maahi", "Sajni", 
+            "Apna Bana Le", "Kesariya", "Raataan Lambiyan", "Kaise Hua", "Tera Hone Laga Hoon", "Jeena Jeena", 
+            "Hawayein", "Tum Se", "Satranga", "Dil Diyan Gallan", "Ve Kamleya", "Tum Mile", "Dekha Hazaro Dafaa", "Photograph", "Main Agar Kahoon"
+        ];
+
+        const reasons = [
+            "Mujhe aapse baat karke sacha sukoon milta hai. 🍃", 
+            "Aapki masoom Aankhein (Eyes) mujhe bohot pyaari lagti hain. 👀",
+            "Aapka Care karne ka tareeka duniya mein sabse alag aur sacha hai. 🌱", 
+            "Jab main pareshan hota hu, aap mera khayal rakhkar sab theek kar deti hain. 🫂",
+            "Aapka Behaviour itna calm aur sweet hai ki koi bhi fida ho jaye. ✨", 
+            "Aapke Hairs jab aap khule chhodti ho, poori princess lagti ho. 👩‍🦰",
+            "Aapke Lips par jab ek choti si smile aati hai, meri saari tension gayab ho jati hai. 💋", 
+            "Aap mujhe hamesha ek behtar insaan banane ke liye motivate karti hain. 💪",
+            "Aapke saath bitaya hua har ek second mere liye ek tohfe jaisa hai. ⏳", 
+            "Aap mujhe hamesha waise hi accept karti ho jaisa main hoon. 🤝",
+            "Aapki wajah se mujhe long distance ka darr kabhi nahi lagta. 🗺️", 
+            "Aap mujhe hamesha bohot important aur special feel karwati hain. 👑",
+            "Aapke sath har random topic par ghanton baat karna accha lagta hai. 🗣️", 
+            "Aapke bina ab mera din ekdum adhura lagta hai. ❤️", 
+            "Aapki khushi mein hi meri asli khushi chhupi hui hai. 🥰",
+            "Aapka har gussa aur har nakhra bohot hi cute hota hai. 🌸", 
+            "Aapke jaisa care karne wala partner milna kismat ki baat hai. 🔥", 
+            "Aapki voice sunte hi mila poora mood fresh ho jata hai. 🗣️", 
+            "Aap meri life ki sabse badi aur sabse pyaari blessing ho. ✨",
+            "Aap mera har dhyan bilkul ek bache ki tarah rakhti ho. 🍼",
+            "Aur sabse bada reason... mujhe koi reason nahi chahiye, bas aap jaisi ho meri ho aur main aapse toot kar pyaar karta hoon! 💖"
+        ];
+
+        const letterText = "Chayanika, yeh hamara pehla mahina hai aur main bas yeh kehna chahta hoon ki aap meri zindagi mein aane wali sabse pyaari cheez ho. Thank you mere saath hone ke liye, mera har kadam par itna khayal rakhne ke liye aur long distance ke bawajood mujhe hamesha apne paas hone ka ehsaas dilane ke liye. Aapka behaviour, aapki aankhein, aapki smile... sab kuch mere liye bohot special hai. I love you so much! ❤️";
+
+        function checkPass() {
+            if(document.getElementById('pass').value === CORRECT_PASS) { next(1, 2); } 
+            else { alert("Galat password! 🔍 Mera birthday date sahi se dalo."); }
+        }
+
+        let runCount = 0;
+        function runSad() {
+            let btn = document.getElementById('no-btn');
+            btn.style.transform = `translate(${Math.random()*140 - 70}px, ${Math.random()*60 - 30}px)`;
+            runCount++;
+            let meme = document.getElementById('meme2');
+            let text = document.getElementById('text2');
+            
+            if(runCount == 2) { meme.innerText = "😭"; text.innerText = "Aise mat karo yaar... sach mein pyaar nahi karti? 💔"; }
+            if(runCount == 4) { meme.innerText = "🥺"; text.innerText = "Mera dil toot jayega Chayanika... please 'Yes' dabhayein na..."; }
+            if(runCount >= 6) { meme.innerText = "💔😭🥺"; text.innerText = "Main rone lagunga ab... Sharafat se accept karo ki pyaar karti ho! ❤️"; }
+        }
+
+        function wrongQuiz(id, msg) { document.getElementById(id).innerText = msg; }
+        function correctQuiz(id, nxt) {
+            document.getElementById(id).style.color = "green";
+            document.getElementById(id).innerText = "Hayee! Kitna pyaara jawab hai! 😘 Unlocking next step...";
+            setTimeout(() => { next(nxt-1, nxt); }, 1200);
+        }
+
+        function generateCompliment() {
+            compCount++;
+            document.getElementById('compText').innerText = compliments[Math.floor(Math.random() * compliments.length)];
+            if(compCount >= 3) {
+                document.getElementById('compBtn').innerText = "Unlock Spin Wheel ➡️";
+                document.getElementById('compBtn').onclick = function() { next(5, 6); };
+            }
+        }
+
+        // FIXED SPIN WHEEL FUNCTION WITH ANIMATION TIMEOUT
+        function spinTheWheel() {
+            let wheel = document.getElementById('spinWheel');
+            let btn = document.getElementById('wheelBtn');
+            btn.disabled = true;
+            btn.innerText = "Spinning... 🔮";
+            
+            // Random degrees to make it spin multiple rounds and stop randomly
+            let randomSpin = Math.floor(Math.random() * 360) + 1440; 
+            wheel.style.transform = `rotate(${randomSpin}deg)`; 
+            
+            setTimeout(() => {
+                alert("🎁 Reward: UNLIMITED HUGS & CARE FOR LIFE! ❤️");
+                next(6, 7);
+            }, 3000); // Wait exactly 3 seconds for the spin to finish
+        }
+
+        function runLoveMeter() {
+            let name = document.getElementById('meterName').value;
+            if(!name) { alert("Pehle apna naam toh daalo!"); return; }
+            let res = document.getElementById('meterResult');
+            let btn = document.getElementById('meterBtn');
+            btn.disabled = true; res.style.display = "block";
+            res.innerText = "Scanning connection bounds... 📊";
+            setTimeout(() => { 
+                res.innerText = `❤️ ${name} + Me = 99999% (Infinite Love) ❤️`; 
+                btn.disabled = false; btn.innerText = "Proceed to Treasure Hunt ➡️";
+                btn.onclick = function() { next(7, 8); };
+            }, 2000);
+        }
+
+        function buildHunt(gId, winIdx, emoji, msgId, stikId, currLvl, nxtLvl) {
+            let grid = document.getElementById(gId);
+            let msg = document.getElementById(msgId);
+            let stk = document.getElementById(stikId);
+            grid.innerHTML = '';
+            for(let i=0; i<9; i++) {
+                let box = document.createElement('div');
+                box.className = 'hunt-item'; box.innerText = '📦';
+                box.onclick = function() {
+                    if(i === winIdx) {
+                        box.style.background = '#d1fae5'; box.innerText = emoji;
+                        if(stk) stk.innerText = "🥳"; msg.innerText = "Mil gaya! 🎉 Unlocking next stage...";
+                        setTimeout(() => { next(currLvl, nxtLvl); }, 1200);
+                    } else {
+                        box.style.background = '#fee2e2'; box.innerText = '❌';
+                        if(stk) stk.innerText = '🥺';
+                        msg.innerText = "Yahan nahi mila, dusra try karo princess! 💖";
+                    }
+                };
+                grid.appendChild(box);
+            }
+        }
+
+        function loadList(id, arr, icon) {
+            let box = document.getElementById(id); box.innerHTML = '';
+            arr.forEach((t, i) => {
+                box.innerHTML += `<div class="spotify-card"><div style="font-size:1.1rem;">${icon}</div><div><div class="track-title">#${i+1}</div><div class="track-desc" style="color:#2b2d42; font-weight:500;">${t}</div></div></div>`;
+            });
+        }
+
+        function startTypewriter() {
+            let box = document.getElementById('typeBox');
+            let btn = document.getElementById('typeBtn');
+            btn.style.display = 'none';
+            let i = 0; box.innerText = '';
+            function type() {
+                if (i < letterText.length) { box.innerText += letterText.charAt(i); i++; setTimeout(type, 30); } 
+                else { btn.style.display = 'block'; btn.innerText = "Go to Achievement Page 🏅"; btn.onclick = function(){ next(15, 16); }; }
+            }
+            type();
+        }
+
+        function next(curr, nxt) {
+            document.getElementById(`l${curr}`).classList.remove('active');
+            document.getElementById(`l${nxt}`).classList.add('active');
+            if(nxt === 8) buildHunt('huntGrid1', 2, '🔑', 'huntMsg1', 'hSticker1', 8, 9);
+            if(nxt === 9) buildHunt('huntGrid2', 5, '💬', 'huntMsg2', 'hSticker2', 9, 10);
+            if(nxt === 10) buildHunt('huntGrid3', 3, '💝', 'huntMsg3', 'hSticker3', 10, 11);
+            if(nxt === 11) buildHunt('huntGrid4', 1, '🏡', 'huntMsg4', 'hSticker4', 11, 12);
+            if(nxt === 12) buildHunt('huntGrid5', 7, '💍', 'huntMsg5', 'hSticker5', 12, 13);
+            if(nxt === 13) loadList('songsBox', songs, '🎵');
+            if(nxt === 14) loadList('reasonsBox', reasons, '💖');
+        }
+    </script>
+</body>
+</html>
